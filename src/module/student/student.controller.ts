@@ -1,5 +1,7 @@
+import httpStatus from 'http-status';
 import { NextFunction, Request, Response } from 'express';
 import { StudentServices } from './student.service';
+import sendResponse from '../../utils/sendResponse';
 
 
 const getAllStudents = async (req: Request, res: Response) => {
@@ -22,11 +24,12 @@ const getSingleStudent = async (req: Request, res: Response, next:NextFunction) 
 
     const result = await StudentServices.getSingleStudentFromDB(studentId);
 
-    res.status(200).json({
-      success: true,
-      message: 'Student is retrieved succesfully',
-      data: result,
-    });
+    sendResponse(res,{
+      statusCode:httpStatus.OK,
+      success:true,
+      message:"One Student is retrieved succesfully",
+      data:result
+    })  
   } catch (err) {
     next(err);
   }
